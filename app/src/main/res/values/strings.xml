@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CV</string>
+    <string name="phone_number">+48733696872</string>
+    <string name="email">lapink365@gmail.com</string>
+    <string name="linkedIn">https://www.linkedin.com/in/nikolas-lapin-35a877275/</string>
+    <string name="git_hub">https://github.com/TomasSt365</string>
+    <string name="author_name">Nik Lapin</string>
+    <string name="author_title">Junior Android Developer</string>
 </resources>
