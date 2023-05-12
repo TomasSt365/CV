@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -70,7 +69,25 @@ fun FirstInfo(
 }
 
 @Composable
-fun ContactInfo() {
+fun ContactInfo(
+    mobilePhone: String,
+    email: String,
+    linkedIn: String,
+    gitHub: String
+) {
+    Column() {
+        Text(text = mobilePhone)
+
+        Text(text = email)
+
+        Text(text = "Click to open a link")
+
+        Text(text = linkedIn)
+
+        Text(text = gitHub)
+
+    }
+
 }
 
 @Preview(showBackground = true)
@@ -78,10 +95,12 @@ fun ContactInfo() {
 fun GreetingPreview() {
     CVTheme {
         MainScreen()
-        FirstInfo(
-            painterImage = painterResource(id = R.drawable.author_foto),
-            name = "Nikolas Lapin",
-            title = "Junior Android Developer"
+        ContactInfo(
+            mobilePhone = "+48-733-696-872",
+            email = "lapink365@gmail.com",
+            linkedIn = "https://www.linkedin.com/in/nikolas-lapin-35a877275",
+            gitHub = "https://github.com/TomasSt365"
         )
     }
+
 }
