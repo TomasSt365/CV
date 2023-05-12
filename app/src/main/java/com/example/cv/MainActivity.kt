@@ -58,7 +58,9 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(modifier: Modifier = Modifier) {
     ContactInfo(
         mobilePhone = "+48733696872",
-        email = "lapink365@gmail.com"
+        email = "lapink365@gmail.com",
+        linkedIn = "https://www.linkedin.com/in/nikolas-lapin-35a877275/",
+        gitHub = "https://github.com/TomasSt365"
     )
 }
 
@@ -105,11 +107,17 @@ fun ContactInfo(
         Text(text = email)
 
         if (linkedIn != null) {
-            Text(text = linkedIn)
+            Link(
+                uri = linkedIn,
+                shortName = "LinkedIn"
+            )
         }
 
         if (gitHub != null) {
-            Text(text = gitHub)
+            Link(
+                uri = gitHub,
+                shortName = "GitHub"
+            )
         }
 
     }
@@ -134,7 +142,7 @@ fun PhoneLink(
     style: TextStyle = LocalTextStyle.current
 ) {
     val context = LocalContext.current
-    val PERMISSION_REQUEST_CALL_PHONE = 1
+
 
     val onClick = {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
@@ -142,7 +150,7 @@ fun PhoneLink(
         ) {
             ActivityCompat.requestPermissions(
                 context as Activity,
-                arrayOf(Manifest.permission.CALL_PHONE), PERMISSION_REQUEST_CALL_PHONE
+                arrayOf(Manifest.permission.CALL_PHONE), 1
             )
         } else {
             val intent = Intent(Intent.ACTION_CALL).apply {
@@ -154,6 +162,65 @@ fun PhoneLink(
 
     Text(
         text = phoneNumber,
+        color = color,
+        fontSize = fontSize,
+        fontStyle = fontStyle,
+        fontWeight = fontWeight,
+        fontFamily = fontFamily,
+        letterSpacing = letterSpacing,
+        textDecoration = textDecoration,
+        textAlign = textAlign,
+        lineHeight = lineHeight,
+        overflow = overflow,
+        softWrap = softWrap,
+        maxLines = maxLines,
+        onTextLayout = onTextLayout,
+        style = style,
+        modifier = Modifier.clickable(onClick = onClick)
+    )
+}
+
+@Composable
+fun Link(
+    uri: String,
+    shortName: String = uri,
+    color: Color = Color.Unspecified,
+    fontSize: TextUnit = TextUnit.Unspecified,
+    fontStyle: FontStyle? = null,
+    fontWeight: FontWeight? = null,
+    fontFamily: FontFamily? = null,
+    letterSpacing: TextUnit = TextUnit.Unspecified,
+    textDecoration: TextDecoration? = null,
+    textAlign: TextAlign? = null,
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    overflow: TextOverflow = TextOverflow.Clip,
+    softWrap: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
+    onTextLayout: (TextLayoutResult) -> Unit = {},
+    style: TextStyle = LocalTextStyle.current
+) {
+    val context = LocalContext.current
+
+    val onClick = {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.INTERNET
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(uri)
+            }
+            context.startActivity(intent)
+        } else {
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                arrayOf(Manifest.permission.INTERNET),
+                1
+            )
+        }
+    }
+    Text(
+        text = shortName,
         color = color,
         fontSize = fontSize,
         fontStyle = fontStyle,
