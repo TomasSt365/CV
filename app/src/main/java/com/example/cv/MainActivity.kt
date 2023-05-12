@@ -2,6 +2,7 @@ package com.example.cv
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -104,7 +105,7 @@ fun ContactInfo(
 
         PhoneLink(phoneNumber = mobilePhone)
 
-        Text(text = email)
+        Email(email = email)
 
         if (linkedIn != null) {
             Link(
@@ -202,22 +203,10 @@ fun Link(
     val context = LocalContext.current
 
     val onClick = {
-        if (ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.INTERNET
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(uri)
-            }
-            context.startActivity(intent)
-        } else {
-            ActivityCompat.requestPermissions(
-                context as Activity,
-                arrayOf(Manifest.permission.INTERNET),
-                1
-            )
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(uri)
         }
+        startInternetIntent(context, intent)
     }
     Text(
         text = shortName,
@@ -239,6 +228,70 @@ fun Link(
     )
 }
 
+
+private fun startInternetIntent(context: Context, intent: Intent) {
+    if (ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.INTERNET
+        ) == PackageManager.PERMISSION_GRANTED
+    ) {
+        context.startActivity(intent)
+    } else {
+        ActivityCompat.requestPermissions(
+            context as Activity,
+            arrayOf(Manifest.permission.INTERNET),
+            1
+        )
+    }
+}
+
+@Composable
+fun Email(
+    email: String,
+    color: Color = Color.Unspecified,
+    fontSize: TextUnit = TextUnit.Unspecified,
+    fontStyle: FontStyle? = null,
+    fontWeight: FontWeight? = null,
+    fontFamily: FontFamily? = null,
+    letterSpacing: TextUnit = TextUnit.Unspecified,
+    textDecoration: TextDecoration? = null,
+    textAlign: TextAlign? = null,
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    overflow: TextOverflow = TextOverflow.Clip,
+    softWrap: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
+    onTextLayout: (TextLayoutResult) -> Unit = {},
+    style: TextStyle = LocalTextStyle.current
+) {
+    val context = LocalContext.current
+
+    val onClick = {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:$email")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+        }
+        startInternetIntent(context, intent)
+    }
+
+    Text(
+        text = email,
+        color = color,
+        fontSize = fontSize,
+        fontStyle = fontStyle,
+        fontWeight = fontWeight,
+        fontFamily = fontFamily,
+        letterSpacing = letterSpacing,
+        textDecoration = textDecoration,
+        textAlign = textAlign,
+        lineHeight = lineHeight,
+        overflow = overflow,
+        softWrap = softWrap,
+        maxLines = maxLines,
+        onTextLayout = onTextLayout,
+        style = style,
+        modifier = Modifier.clickable(onClick = onClick)
+    )
+}
 
 @Preview(showBackground = true)
 @Composable
