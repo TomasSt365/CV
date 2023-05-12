@@ -13,11 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.cv.ui.theme.CVTheme
+import com.example.cv.ui.theme.compose.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +38,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
+    ContactInfo(
+        mobilePhone = "+48733696872",
+        email = "lapink365@gmail.com",
+        linkedIn = "https://www.linkedin.com/in/nikolas-lapin-35a877275/",
+        gitHub = "https://github.com/TomasSt365"
+    )
 }
 
 @Composable
@@ -70,18 +76,42 @@ fun FirstInfo(
 }
 
 @Composable
-fun ContactInfo() {
+fun ContactInfo(
+    mobilePhone: String,
+    email: String,
+    linkedIn: String? = null,
+    gitHub: String? = null,
+) {
+    Column() {
+
+        PhoneLink(phoneNumber = mobilePhone)
+
+        Email(email = email)
+
+        if (linkedIn != null) {
+            Link(
+                uri = linkedIn,
+                shortName = "LinkedIn"
+            )
+        }
+
+        if (gitHub != null) {
+            Link(
+                uri = gitHub,
+                shortName = "GitHub"
+            )
+        }
+
+    }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     CVTheme {
         MainScreen()
-        FirstInfo(
-            painterImage = painterResource(id = R.drawable.author_foto),
-            name = "Nikolas Lapin",
-            title = "Junior Android Developer"
-        )
     }
+
 }
