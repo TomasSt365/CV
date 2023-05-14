@@ -1,44 +1,43 @@
 package com.example.cv
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.cv.compose.Email
-import com.example.cv.compose.Link
-import com.example.cv.compose.PhoneLink
+import com.example.cv.compose.linksCompose.Email
+import com.example.cv.compose.linksCompose.Link
+import com.example.cv.compose.linksCompose.PhoneLink
 import com.example.cv.ui.theme.CVTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         setContent {
             CVTheme {
                 // A surface container using the 'background' color from the theme
@@ -55,10 +54,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
-    Box(
+
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color(0x5900BCD4))
+            .background(color = Color(0x5900BCD4)),
+        verticalArrangement = Arrangement.Center,
     ) {
 
         FirstInfo(
@@ -66,24 +67,20 @@ fun MainScreen() {
             name = stringResource(R.string.author_name),
             title = stringResource(R.string.author_title),
             modifier = Modifier
-                .align(Center)
-                .padding(bottom = 70.dp)
+                .align(CenterHorizontally)
+                .padding(bottom = 70.dp, top = 150.dp)
         )
 
         ContactInfo(
-            fontSize = 24.sp,
             mobilePhone = stringResource(R.string.phone_number),
             email = stringResource(R.string.email),
             linkedIn = stringResource(R.string.linkedIn),
             gitHub = stringResource(R.string.git_hub),
             modifier = Modifier
-                .padding(bottom = 70.dp)
-                .align(Alignment.BottomCenter)
+                .padding(bottom = 0.dp)
+                .align(CenterHorizontally).align(Alignment.End)
         )
-
-
     }
-
 }
 
 @Composable
@@ -95,7 +92,7 @@ fun FirstInfo(
 ) {
     Box(modifier = modifier) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = CenterHorizontally
         ) {
             Image(
                 painter = painterImage,
@@ -123,48 +120,43 @@ fun FirstInfo(
 @Composable
 fun ContactInfo(
     mobilePhone: String,
-    fontSize: TextUnit,
     email: String,
     linkedIn: String? = null,
     gitHub: String? = null,
     modifier: Modifier = Modifier
 ) {
-    val iconColor = Color.Blue
+    val instructionsForLinks = InstructionsForLinks(LocalContext.current)
 
     Box(modifier = modifier) {
         Column {
 
             PhoneLink(
                 phoneNumber = mobilePhone,
-                icon = Icons.Default.Phone,
-                iconColor = iconColor,
-                fontSize = fontSize
+                textInstruction = instructionsForLinks.textForLinks,
+                iconInstruction = instructionsForLinks.iconForPhone
             )
 
             Email(
                 email = email,
-                fontSize = fontSize,
-                icon = Icons.Default.Email,
-                iconColor = iconColor
+                textInstruction = instructionsForLinks.textForLinks,
+                iconInstruction = instructionsForLinks.iconForEmail
             )
 
             if (linkedIn != null) {
                 Link(
                     uri = linkedIn,
-                    shortName = "LinkedIn",
-                    fontSize = fontSize,
-                    icon = Icons.Default.AccountCircle,
-                    iconColor = iconColor
+                    shortName = stringResource(R.string.linkedin),
+                    textInstruction = instructionsForLinks.textForLinks,
+                    iconInstruction = instructionsForLinks.iconForLinkedIn
                 )
             }
 
             if (gitHub != null) {
                 Link(
                     uri = gitHub,
-                    shortName = "GitHub",
-                    fontSize = fontSize,
-                    icon = Icons.Default.AccountCircle,
-                    iconColor = iconColor
+                    shortName = stringResource(R.string.github),
+                    textInstruction = instructionsForLinks.textForLinks,
+                    iconInstruction = instructionsForLinks.iconForGitHub
                 )
             }
 
