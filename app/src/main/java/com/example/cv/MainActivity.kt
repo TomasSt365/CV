@@ -10,6 +10,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,10 +31,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.cv.compose.Email
+import com.example.cv.compose.Link
+import com.example.cv.compose.PhoneLink
 import com.example.cv.ui.theme.CVTheme
-import com.example.cv.ui.theme.compose.Email
-import com.example.cv.ui.theme.compose.Link
-import com.example.cv.ui.theme.compose.PhoneLink
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -125,24 +129,32 @@ fun ContactInfo(
     gitHub: String? = null,
     modifier: Modifier = Modifier
 ) {
+    val iconColor = Color.Blue
+
     Box(modifier = modifier) {
         Column {
 
             PhoneLink(
                 phoneNumber = mobilePhone,
+                icon = Icons.Default.Phone,
+                iconColor = iconColor,
                 fontSize = fontSize
             )
 
             Email(
                 email = email,
-                fontSize = fontSize
+                fontSize = fontSize,
+                icon = Icons.Default.Email,
+                iconColor = iconColor
             )
 
             if (linkedIn != null) {
                 Link(
                     uri = linkedIn,
                     shortName = "LinkedIn",
-                    fontSize = fontSize
+                    fontSize = fontSize,
+                    icon = Icons.Default.AccountCircle,
+                    iconColor = iconColor
                 )
             }
 
@@ -150,7 +162,9 @@ fun ContactInfo(
                 Link(
                     uri = gitHub,
                     shortName = "GitHub",
-                    fontSize = fontSize
+                    fontSize = fontSize,
+                    icon = Icons.Default.AccountCircle,
+                    iconColor = iconColor
                 )
             }
 
