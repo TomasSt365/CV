@@ -6,4 +6,10 @@
     <string name="git_hub">https://github.com/TomasSt365</string>
     <string name="author_name">Nik Lapin</string>
     <string name="author_title">Junior Android Developer</string>
+    <string name="content_description_for_phone">Phone</string>
+    <string name="email_content_description">Email</string>
+    <string name="linkedid_content_description">LinkedId</string>
+    <string name="github_content_description">GitHub</string>
+    <string name="github">GitHub</string>
+    <string name="linkedin">LinkedIn</string>
 </resources>
